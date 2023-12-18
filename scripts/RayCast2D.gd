@@ -6,8 +6,7 @@ func _process(delta):
 	position = get_global_mouse_position()
 
 func _input(event):
-	if event is InputEventMouseButton and event.pressed:
-		print(is_colliding())
+	if event is InputEventScreenTouch and event.pressed:
 		if is_colliding():
 			if current_highlighted.size() > 0:
 				var collider = current_highlighted[0]
