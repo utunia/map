@@ -6,6 +6,9 @@ var used_colors: Array[Color] = []
 func _ready():
 	color_areas([1,2,5,3])
 	color_areas([11,9,7,6])
+	color_areas([4,8,10,12])
+	color_areas([13,14,15])
+	
 
 func _process(delta):
 	position = get_global_mouse_position()
@@ -38,12 +41,25 @@ func create_highlight_polygon(points, color, pos=null, scaled=null):
 
 
 func color_areas(areas: Array[int]):
-	var color: Color = Color(randf(), randf(), randf(), 0.5)
+	var color: Color = generate_color()
 	while color in used_colors:
-		color = Color(randf(), randf(), randf(), 0.5)
+		color = generate_color()
 	used_colors.append(color)
 	for child in get_parent().get_children():
 		if child is Area2D:
 			if child.name.to_int() in areas:
 				var child_polygon: CollisionPolygon2D = child.get_child(0) 
 				child.add_child(create_highlight_polygon(child_polygon.polygon, color, child_polygon.global_position, child_polygon.scale))
+
+
+func generate_color():
+	var separation = 0.2 
+	var red = randf_range(0., 1. - separation)
+	var green = randf_range(0., 1. - separation)
+	var blue = randf_range(0., 1. - separation)
+	red = (red + 1. - separation) / 2 
+	green = (green + 1. - separation) / 2 
+	blue = (blue + 1. - separation) / 2
+	return Color(red, green, blue, 0.6)
+
+	
